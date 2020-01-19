@@ -450,6 +450,7 @@ class _DetailPageState extends State<DetailPage> {
             color: primary,
           ),
           Container(
+            height: 300,
             padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -462,8 +463,93 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 120,
+                Container(
+                  width: 140,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: secondary,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                  bottomRight: Radius.circular(25),
+                                )),
+                            child: Icon(Icons.crop, color: Colors.white),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 5),
+                                child: Text(
+                                  'Small',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Size',
+                                  style: TextStyle(color: secondary),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: secondary,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                  bottomRight: Radius.circular(25),
+                                )),
+                            child: Icon(Icons.zoom_out_map, color: Colors.white),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 5),
+                                child: Text(
+                                  '11.2"',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Diameters',
+                                  style: TextStyle(color: secondary),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -547,12 +633,38 @@ class _DetailPageState extends State<DetailPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. ',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ),
               ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 50,
+              margin: const EdgeInsets.only(bottom: 15, left: 30, right: 30),
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Add to Cart ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
           ),
           Container(
