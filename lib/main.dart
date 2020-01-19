@@ -33,8 +33,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    final Furniture a = Furniture('Leather Sofa', 'Sofa', '36', '30', 'a.png');
-    final Furniture b = Furniture('Dining Table', 'Table', '36', '30', 'b.png');
+    final Furniture a =
+        Furniture('1', 'Leather Sofa', 'Sofa', '36', '30', 'a.png');
+    final Furniture b =
+        Furniture('2', 'Dining Table', 'Table', '36', '30', 'b.png');
 
     recommendedFurniture.add(a);
     sofaFurnitures.add(a);
@@ -46,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
     return Stack(
       children: <Widget>[
         Container(
@@ -344,37 +347,38 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Text(
-                              item.category,
-                              style: TextStyle(color: secondary),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '\$${item.price}',
-                                  style: TextStyle(
-                                      color: secondary,
-                                      decoration: TextDecoration.lineThrough),
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            item.category,
+                            style: TextStyle(color: secondary),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                '\$${item.price}',
+                                style: TextStyle(
+                                    color: secondary,
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Text(
+                                ' \$${item.currentPrice}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  ' \$${item.currentPrice}',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                )
-                              ],
-                            ),
-                          ],
-                        )),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -401,12 +405,23 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           ),
-          Container(
-            //Image
-            height: 150,
-            margin: const EdgeInsets.only(left: 20, right: 50),
-            child: Image(
-              image: AssetImage(item.img),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<DetailPage>(
+                  builder: (BuildContext context) => DetailPage(
+                        furniture: item,
+                      )));
+            },
+            child: Container(
+              //Image
+              height: 150,
+              margin: const EdgeInsets.only(left: 20, right: 50),
+              child: Hero(
+                tag: item.id,
+                child: Image(
+                  image: AssetImage(item.img),
+                ),
+              ),
             ),
           )
         ],
@@ -415,9 +430,204 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Furniture {
-  Furniture(this.name, this.category, this.price, this.currentPrice, this.img);
+class DetailPage extends StatefulWidget {
+  DetailPage({Key key, this.furniture}) : super(key: key);
+  final Furniture furniture;
 
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            //Purple BG
+            color: primary,
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: Hero(
+                    tag: widget.furniture.id,
+                    child: Image(
+                      image: AssetImage(widget.furniture.img),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 120,
+                )
+              ],
+            ),
+          ),
+          Container(
+            //White BG
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            margin: const EdgeInsets.only(top: 300),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 300),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Text(
+                        widget.furniture.name,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '\$${widget.furniture.price}',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                          Text(
+                            ' \$${widget.furniture.currentPrice}',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '${widget.furniture.category}',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: Divider(
+                    height: 40,
+                    color: Colors.grey,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Explore this furniture',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. ',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            //Top bar
+            color: Colors.transparent,
+            height: 100,
+            child: Stack(
+              children: <Widget>[
+                Material(
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 40, left: 10, right: 10, bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Stack(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                                onPressed: () {
+                                  print('I love bakatan');
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.star,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              print('I love melon');
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Furniture {
+  Furniture(this.id, this.name, this.category, this.price, this.currentPrice,
+      this.img);
+
+  final String id;
   final String name;
   final String category;
   final String price;
